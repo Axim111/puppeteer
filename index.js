@@ -46,9 +46,23 @@ let main = (async () => {
   //       .innerText))
 
   // }
+  let tem = "true"
+  try {
 
-  let tem = await (await page.$(".paging")).evaluate(node =>
-    node.querySelector(".next > a").getAttribute("href"))
+    tem = await page.$$(".mr4 > a")
+    // console.log(tem)
+    for (let item of tem) {
+      console.log(item)
+      console.log(await item.evaluate(node => node.getAttribute("href")))
+    }
+
+  }
+
+  catch (er) {
+    console.error(er)
+  }
+
+
 
 
 
