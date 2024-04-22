@@ -58,18 +58,17 @@ let main = (async () => {
     while (nextPoint) {
 
       // await nextPoint.click()
-      addUrl = await nextPoint.evaluate((node) => node.getAttribute("href"))
 
+      // addUrl = await nextPoint.evaluate((node) => node.getAttribute("href"))
+      // await page.goto("https://kwork.ru/projects" + addUrl, {
+      //   // waitUntil: 'domcontentloaded',
+      //   waitUntil: "load"
+      // })
 
-      await page.goto("https://kwork.ru/projects" + addUrl, {
-        // waitUntil: 'domcontentloaded',
-        waitUntil: "load"
-      })
+      await nextPoint.click()
+      await page.waitForSelector(".paging > .p1 > .no-style > .next > a", { visible: true })
 
-      // await nextPoint.click()
-      // await page.waitForSelector(".paging > .p1 > .no-style > .next > a", { visible: true })
-
-      // nextPoint = (await page.$(".paging > .p1 > .no-style > .next > a"))
+      nextPoint = (await page.$(".paging > .p1 > .no-style > .next > a"))
       if (nextPoint) {
         console.log(await nextPoint.evaluate((node) => node.getAttribute("href")))
       }
