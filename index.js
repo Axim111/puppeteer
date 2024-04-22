@@ -60,7 +60,6 @@ let main = (async () => {
       // await nextPoint.click()
       addUrl = await nextPoint.evaluate((node) => node.getAttribute("href"))
 
-      await page.waitForSelector(".paging > .p1 > .no-style > .next > a")
 
       await page.goto("https://kwork.ru/projects" + addUrl, {
         // waitUntil: 'domcontentloaded',
@@ -68,9 +67,9 @@ let main = (async () => {
       })
 
       // await nextPoint.click()
+      // await page.waitForSelector(".paging > .p1 > .no-style > .next > a", { visible: true })
 
-
-      nextPoint = (await page.$(".paging > .p1 > .no-style > .next > a"))
+      // nextPoint = (await page.$(".paging > .p1 > .no-style > .next > a"))
       if (nextPoint) {
         console.log(await nextPoint.evaluate((node) => node.getAttribute("href")))
       }
