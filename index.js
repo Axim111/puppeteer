@@ -34,7 +34,7 @@ let main = (async () => {
 
 
   const page = await browser.newPage();
-  await page.goto("https://kwork.ru/projects")
+  await page.goto("https://kwork.ru/projects", { waitUntil: "load" })
   // scrollDown(page)
   const jobs = await page.$$(".card")
 
@@ -46,30 +46,46 @@ let main = (async () => {
   //       .innerText))
 
   // }
-  let tem = "true"
+  let addUrl = ""
   try {
+    let nextPoint = (await page.$(".paging > .p1 > .no-style > .next > a"))
 
-    tem = await page.$$(".mr4 > a")
-    // console.log(tem)
-    for (let item of tem) {
-      console.log(item)
-      console.log(await item.evaluate(node => node.getAttribute("href")))
+
+    // console.log(await nextPoint.evaluate((node) => node.getAttribute("href")))
+
+
+
+    while (nextPoint) {
+
+      // await nextPoint.click()
+      addUrl = await nextPoint.evaluate((node) => node.getAttribute("href"))
+
+      await page.waitForSelector(".paging > .p1 > .no-style > .next > a")
+
+      await page.goto("https://kwork.ru/projects" + addUrl, {
+        // waitUntil: 'domcontentloaded',
+        waitUntil: "load"
+      })
+
+      // await nextPoint.click()
+
+
+      nextPoint = (await page.$(".paging > .p1 > .no-style > .next > a"))
+      if (nextPoint) {
+        console.log(await nextPoint.evaluate((node) => node.getAttribute("href")))
+      }
+
+
     }
+
+
+
 
   }
 
   catch (er) {
     console.error(er)
   }
-
-
-
-
-
-
-
-
-
 
 
 
